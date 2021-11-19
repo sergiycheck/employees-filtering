@@ -1,6 +1,9 @@
 .App {
   text-align: center;
-  font-size: calc(10px + 2vmin);
+  font-size: var(--font-size-main);
+}
+.App button {
+  font-size: var(--font-size-main);
 }
 
 .App-header {
