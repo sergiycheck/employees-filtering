@@ -1,0 +1,31 @@
+.App {
+  text-align: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+main ul li {
+  list-style: none;
+}
+
+.userContainer {
+  text-align: left;
+}
+
+.userContainer .activity .activityCheck {
+  display: block;
+}
+
+.userContainer .activity .activityCheck label {
+  margin-left: 1rem;
+}
+
+.userActive {
+  color: #0d6efd;
+}
