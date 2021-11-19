@@ -1,8 +1,19 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
-import UserList from "../Users/UserList";
+import VisibleUserList from "../Users/VisibleUserList";
 import { AlphabetElements } from "../FilterElements/FilterElements";
+import { ActiveUserList } from "../Users/ActiveUsersList";
+
+function Root() {
+  return (
+    <Router>
+      <Switch>
+        <Route path="/:filter?" component={App}></Route>
+      </Switch>
+    </Router>
+  );
+}
 
 function App() {
   return (
@@ -11,14 +22,12 @@ function App() {
         <AlphabetElements />
       </header>
       <main>
-        <Router>
-          <Switch>
-            <Route path="/:filter?" component={UserList}></Route>
-          </Switch>
-        </Router>
+        <VisibleUserList />
+        <hr />
+        <ActiveUserList />
       </main>
     </div>
   );
 }
 
-export default App;
+export default Root;

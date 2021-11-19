@@ -1,19 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectUserIds, selectUserById, toggleUser, UserData } from "./usersSlice";
 import classNames from "classnames";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { selectUserById, toggleUser, UserData } from "./usersSlice";
 
-const UserList = () => {
-  const userIds = useAppSelector(selectUserIds) as string[];
+import { PropsFromReduxForUserList } from "./VisibleUserList";
 
-  const renderedListItems = userIds.map((userId) => {
-    return <UserListItem key={userId} id={userId} />;
+export const UserList = (props: PropsFromReduxForUserList) => {
+  const { userFilteredKeyedIds } = props;
+
+  const filteredKeys = Object.keys(userFilteredKeyedIds);
+
+  const renderedListItems = filteredKeys.map((filteredKey, i) => {
+    const userIds = userFilteredKeyedIds[filteredKey];
+
+    const renderedUsers = userIds.map((userId) => {
+      return <UserListItem key={userId} id={userId}></UserListItem>;
+    });
+
+    return (
+      <div key={i}>
+        <h3>{filteredKey.toUpperCase()}</h3>
+        <ul className="users-list">
+          {renderedUsers}
+          {!renderedUsers.length && <h4>No Employees</h4>}
+        </ul>
+      </div>
+    );
   });
 
   return (
-    <React.Fragment>
-      <ul className="users-list">{renderedListItems}</ul>
-    </React.Fragment>
+    <div className="employees-container">
+      <div className="employee-title">
+        <h2>Employees</h2>
+      </div>
+      <div className="userLists">{renderedListItems}</div>
+    </div>
   );
 };
 
@@ -32,7 +53,7 @@ const UserListItem = (props: UserListItemProps) => {
   }) as UserData;
 
   useEffect(() => {
-    setUserActive(user?.toggled ? true : false);
+    setUserActive(user?.isActive ? true : false);
   }, [user]);
 
   return (
@@ -43,8 +64,8 @@ const UserListItem = (props: UserListItemProps) => {
         </h4>
 
         <div>
-          <p>{user.toggled && "active"}</p>
-          <p>{!user.toggled && "not active"}</p>
+          <p>{user.isActive && "active"}</p>
+          <p>{!user.isActive && "not active"}</p>
         </div>
 
         <div className="activity">
@@ -80,5 +101,3 @@ const UserListItem = (props: UserListItemProps) => {
     </li>
   );
 };
-
-export default UserList;
