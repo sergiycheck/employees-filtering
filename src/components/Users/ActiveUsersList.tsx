@@ -31,7 +31,10 @@ export const ActiveUserList = () => {
       <div className="employee-title">
         <h2>Employees birthday</h2>
       </div>
-      <div>{renderedListItems}</div>
+      <div>
+        {renderedListItems}
+        {(!renderedListItems || !renderedListItems.length) && <h4>Employees List is empty</h4>}
+      </div>
     </div>
   );
 };
