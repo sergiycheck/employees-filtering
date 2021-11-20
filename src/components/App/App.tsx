@@ -11,10 +11,17 @@ function App() {
         <AlphabetElements />
       </header>
       <main>
-        <VisibleUserList />
-        <hr />
-        <ActiveUserList />
+        <div className="container">
+          <div className="row">
+            <VisibleUserList />
+            <div className="vertical-line"></div>
+            <ActiveUserList />
+          </div>
+        </div>
       </main>
+      <footer>
+        <hr />
+      </footer>
     </div>
   );
 }

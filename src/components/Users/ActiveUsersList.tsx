@@ -27,7 +27,7 @@ export const ActiveUserList = () => {
   });
 
   return (
-    <div>
+    <div className="employees-birthdays">
       <div className="employee-title">
         <h2>Employees birthday</h2>
       </div>
