@@ -1,3 +1,7 @@
+const domainName = `https://yalantis-react-school-api.yalantis.com`;
+const apiUrl = `${domainName}/api`;
+export const usersUrl = `${apiUrl}/task0/users`;
+
 export const months = [
   "January",
   "February",

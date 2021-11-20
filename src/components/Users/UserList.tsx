@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectUserById, toggleUser, UserData } from "./usersSlice";
-
 import { PropsFromReduxForUserList } from "./VisibleUserList";
 
 export const UserList = (props: PropsFromReduxForUserList) => {

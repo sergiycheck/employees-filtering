@@ -6,8 +6,6 @@ import { getMonthName } from "./sharedConsts";
 export const ActiveUserList = () => {
   const activeUserIds = useAppSelector((state) => selectActiveGroupedFilteredUserIds(state));
 
-  console.log("activeUsersGroupedSorted ", activeUserIds);
-
   const filteredMonthKeys = Object.keys(activeUserIds);
   const renderedListItems = filteredMonthKeys.map((filteredKey, i) => {
     const userIds = activeUserIds[filteredKey];

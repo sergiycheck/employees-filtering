@@ -1,29 +1,11 @@
 import { connect, ConnectedProps } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
-import { withRouter } from "react-router";
 import { RootState } from "../../app/store";
 import { UserList } from "./UserList";
-import { alphabetFilterTypes } from "./../FilterElements/alpabetFilterTypes";
 import { selectUserIdsByLettersFilter } from "./usersSlice";
 
-type MatchParams = {
-  filter: string;
-};
-
-export const mapStateToProps = (state: RootState, props: RouteComponentProps<MatchParams>) => {
-  const { match } = props;
-  let filter = match.params.filter || alphabetFilterTypes.all;
-
-  const alpabetValues = Object.values(alphabetFilterTypes);
-  if (!alpabetValues.includes(filter)) filter = alphabetFilterTypes.all;
-
-  let normalizedFilter = filter
-    .split("")
-    .map((c) => c.toLocaleLowerCase())
-    .join("") as string;
-
+export const mapStateToProps = (state: RootState) => {
   return {
-    userFilteredKeyedIds: selectUserIdsByLettersFilter(state, normalizedFilter),
+    userFilteredKeyedIds: selectUserIdsByLettersFilter(state),
   };
 };
 
@@ -31,6 +13,6 @@ const connector = connect(mapStateToProps);
 
 export type PropsFromReduxForUserList = ConnectedProps<typeof connector>;
 
-const connectorWithRouter = withRouter(connector(UserList));
+const connectorWithRouter = connector(UserList);
 
 export default connectorWithRouter;

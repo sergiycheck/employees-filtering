@@ -55,7 +55,10 @@ main ul li {
 }
 
 .userActive {
-  color: #0d6efd;
+  color: var(--active-color);
+}
+.buttonActive {
+  background-color: var(--active-color);
 }
 
 .filter {
