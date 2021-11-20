@@ -1,6 +1,14 @@
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
 :root {
   --font-size-main: calc(10px + 2vmin);
   --active-color: #0d6efd;
+
+  scroll-behavior: smooth;
 }
 
 body {

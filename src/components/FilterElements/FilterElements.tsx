@@ -19,7 +19,7 @@ export const AlphabetElements = () => {
     );
   });
 
-  return <div>{renderedButtons}</div>;
+  return <div className="buttons-container">{renderedButtons}</div>;
 };
 
 type elementWithLetterProps = {

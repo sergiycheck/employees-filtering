@@ -62,11 +62,6 @@ const UserListItem = (props: UserListItemProps) => {
           {user.firstName} {user.lastName}
         </h4>
 
-        <div>
-          <p>{user.isActive && "active"}</p>
-          <p>{!user.isActive && "not active"}</p>
-        </div>
-
         <div className="activity">
           <div className="activityCheck">
             <input
