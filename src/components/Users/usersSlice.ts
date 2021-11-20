@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction, createEntityAdapter } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { alphabetFilterTypes } from "../FilterElements/alpabetFilterTypes";
-import { getMonthName } from "./sharedConsts";
+import { getMonthName, usersUrl } from "./sharedConsts";
 
 export interface UserData {
   id: string;
   firstName: string;
   lastName: string;
   dob: string;
+
   isActive?: boolean;
 }
 
@@ -25,14 +25,14 @@ const usersAdapter = createEntityAdapter<UserData>({
     return u1.firstName.localeCompare(u2.firstName);
   },
 });
+
 const initialState = usersAdapter.getInitialState({
-  //entities
-  //ids
-  value: false,
+  maxLettersSelected: 3,
+  selectedLettersFilter: "",
 });
 
-export const fetchUsers = createAsyncThunk("users/fetchUsers", async (amount: number) => {
-  const response = await fetch(`https://yalantis-react-school-api.yalantis.com/api/task0/users`);
+export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
+  const response = await fetch(`${usersUrl}`);
   const responseJson = (await response.json()) as UserData[];
   return responseJson;
 });
@@ -41,8 +41,26 @@ export const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    setOnOffVal: (state, action: PayloadAction<boolean>) => {
-      state.value = action.payload;
+    concatRemoveLetterFilter: (state, action: PayloadAction<string>) => {
+      const oneLetter = action.payload;
+      const oneLetterNorm = oneLetter.toLowerCase();
+      const { selectedLettersFilter } = state;
+
+      if (!selectedLettersFilter) {
+        state.selectedLettersFilter = oneLetter;
+        return;
+      }
+
+      if (selectedLettersFilter.includes(oneLetterNorm)) {
+        state.selectedLettersFilter = selectedLettersFilter
+          .split("")
+          .filter((l) => l !== oneLetterNorm)
+          .join("");
+        return;
+      }
+      if (state.selectedLettersFilter.length === state.maxLettersSelected) return;
+
+      state.selectedLettersFilter = selectedLettersFilter.concat(oneLetter);
     },
     toggleUser: (state, action: PayloadAction<{ id: string; activity: boolean }>) => {
       const { id, activity } = action.payload;
@@ -52,7 +70,7 @@ export const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
-      const users = action.payload; //.slice(0, 5);
+      const users = action.payload;
 
       const newEntities: entityUser = {};
       users.forEach((dataUser: UserData) => {
@@ -62,9 +80,10 @@ export const usersSlice = createSlice({
     });
   },
 });
-export const { setOnOffVal, toggleUser } = usersSlice.actions;
+export const { concatRemoveLetterFilter, toggleUser } = usersSlice.actions;
 
-export const selectOnOffVal = (state: RootState) => state.users.value;
+export const selectSelectedLettersFilter = (state: RootState) => state.users.selectedLettersFilter;
+export const selectMaxLettersSelected = (state: RootState) => state.users.maxLettersSelected;
 
 export const {
   selectAll: selectUsers,
@@ -72,10 +91,11 @@ export const {
   selectIds: selectUserIds,
 } = usersAdapter.getSelectors((state: RootState) => state.users);
 
-export const selectUserIdsByLettersFilter = (state: RootState, filter: string) => {
+export const selectUserIdsByLettersFilter = (state: RootState) => {
   const users = selectUsers(state);
+  const filter = selectSelectedLettersFilter(state);
 
-  if (filter === alphabetFilterTypes.all) {
+  if (!filter) {
     const allUserIds = users.map((u) => u.id);
     const allUserIdsFiltered: UserIdsFiltered = {
       all: allUserIds,
