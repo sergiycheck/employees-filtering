@@ -1,3 +1,4 @@
+$bigger-max-width: 1700px;
 $max-width: 1300px;
 $near-max-width: 1200px;
 $medium-width: 992px;
@@ -63,8 +64,6 @@ $near-medium-width: 768px;
       }
 
       .buttonActive {
-        // background-color: var(--active-color);
-        // color: #fff;
         color: var(--active-color);
       }
     }
@@ -90,6 +89,9 @@ $near-medium-width: 768px;
 
       @media screen and (min-width: $max-width) {
         max-width: ($max-width)-80px;
+      }
+      @media screen and (min-width: $bigger-max-width) {
+        max-width: 100%;
       }
 
       .row {

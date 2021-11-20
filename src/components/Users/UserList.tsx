@@ -73,6 +73,7 @@ const UserListItem = (props: UserListItemProps) => {
               name={`${user.id}-activity`}
               id={`${user.id}-activeFalse`}
               checked={!userActive}
+              value="false"
             />
             <label htmlFor={`${user.id}-activeFalse`}>not active</label>
           </div>
@@ -87,6 +88,7 @@ const UserListItem = (props: UserListItemProps) => {
               name={`${user.id}-activity`}
               id={`${user.id}-activeTrue`}
               checked={userActive}
+              value="true"
             />
             <label htmlFor={`${user.id}-activeTrue`}>active</label>
           </div>
