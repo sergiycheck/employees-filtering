@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./App.scss";
 import VisibleUserList from "../Users/VisibleUserList";
 import { AlphabetElements } from "../FilterElements/FilterElements";
 import { ActiveUserList } from "../Users/ActiveUsersList";
