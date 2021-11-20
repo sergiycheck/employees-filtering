@@ -5,13 +5,13 @@ import { selectSelectedLettersFilter, selectMaxLettersSelected, concatRemoveLett
 
 function getAlphabetArr() {
   let i: number;
-  const alpabetArr = [...Array(26)].map((_) => (++i).toString(36), (i = 9));
-  return alpabetArr;
+  const alphabetArr = [...Array(26)].map((_) => (++i).toString(36), (i = 9));
+  return alphabetArr;
 }
 
 export const AlphabetElements = () => {
-  const memoAlpabetArr = useMemo(getAlphabetArr, []);
-  const renderedButtons = memoAlpabetArr.map((groupChars, i) => {
+  const memoAlphabetArr = useMemo(getAlphabetArr, []);
+  const renderedButtons = memoAlphabetArr.map((groupChars, i) => {
     return (
       <ElementWithLetter key={i} letter={groupChars}>
         <>{groupChars} </>
