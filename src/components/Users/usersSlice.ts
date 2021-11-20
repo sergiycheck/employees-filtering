@@ -20,7 +20,10 @@ type UserIdsFiltered = {
 };
 
 const usersAdapter = createEntityAdapter<UserData>({
-  sortComparer: (u1, u2) => u1.firstName.localeCompare(u2.firstName),
+  sortComparer: (u1, u2) => {
+    if (!u1.firstName || !u2.firstName) debugger;
+    return u1.firstName.localeCompare(u2.firstName);
+  },
 });
 const initialState = usersAdapter.getInitialState({
   //entities

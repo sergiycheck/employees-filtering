@@ -14,6 +14,9 @@ export const mapStateToProps = (state: RootState, props: RouteComponentProps<Mat
   const { match } = props;
   let filter = match.params.filter || alphabetFilterTypes.all;
 
+  const alpabetValues = Object.values(alphabetFilterTypes);
+  if (!alpabetValues.includes(filter)) filter = alphabetFilterTypes.all;
+
   let normalizedFilter = filter
     .split("")
     .map((c) => c.toLocaleLowerCase())
