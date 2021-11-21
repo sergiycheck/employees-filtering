@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction, createEntityAdapter } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { getMonthName, usersUrl } from "./sharedConsts";
+import { usersUrl } from "./sharedConsts";
 
 export interface UserData {
   id: string;
@@ -15,7 +15,7 @@ type entityUser = {
   [id: string]: UserData;
 };
 
-type UserIdsFiltered = {
+export type UserIdsFiltered = {
   [key: string]: string[];
 };
 
@@ -90,59 +90,5 @@ export const {
   selectById: selectUserById,
   selectIds: selectUserIds,
 } = usersAdapter.getSelectors((state: RootState) => state.users);
-
-export const selectUserIdsByLettersFilter = (state: RootState) => {
-  const users = selectUsers(state);
-  const filter = selectSelectedLettersFilter(state);
-
-  if (!filter) {
-    const allUserIds = users.map((u) => u.id);
-    const allUserIdsFiltered: UserIdsFiltered = {
-      all: allUserIds,
-    };
-    return allUserIdsFiltered;
-  }
-
-  const reducedUserIds = filter.split("").reduce((prev, curr) => {
-    const filteredUserIds = users
-      .filter((u) => u.firstName.toUpperCase().startsWith(curr.toUpperCase()))
-      .map((u) => u.id);
-
-    prev[curr] = filteredUserIds;
-
-    return prev;
-  }, {} as UserIdsFiltered);
-
-  return reducedUserIds;
-};
-
-export const selectActiveGroupedFilteredUserIds = (state: RootState) => {
-  const activeUsers = selectUsers(state).filter((u) => u.isActive);
-
-  type UsersFiltered = {
-    [key: string]: UserData[];
-  };
-
-  const usersGroupedByMonth = activeUsers.reduce((prev, curr) => {
-    const month = getMonthName(curr.dob);
-    if (!prev[month]) {
-      prev[month] = [];
-    }
-    prev[month].push(curr);
-    return prev;
-  }, {} as UsersFiltered);
-
-  const userGroupByMonthFilteredByLastName = Object.entries(usersGroupedByMonth).reduce((prev, curr) => {
-    const [key, valueArr] = curr;
-
-    prev[key] = valueArr
-      .sort((u1, u2) => u1.lastName.toLowerCase().localeCompare(u2.lastName.toLowerCase()))
-      .map((u) => u.id);
-
-    return prev;
-  }, {} as UserIdsFiltered);
-
-  return userGroupByMonthFilteredByLastName;
-};
 
 export default usersSlice.reducer;

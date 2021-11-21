@@ -1,7 +1,8 @@
 import React, { useMemo } from "react";
 import { useAppSelector } from "../../app/hooks";
-import { selectUserById, UserData, selectActiveGroupedFilteredUserIds } from "./usersSlice";
+import { selectUserById, UserData } from "./usersSlice";
 import { getMonthName } from "./sharedConsts";
+import { selectActiveGroupedFilteredUserIds } from "./userSelectors";
 
 export const ActiveUserList = () => {
   const activeUserIds = useAppSelector((state) => selectActiveGroupedFilteredUserIds(state));

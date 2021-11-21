@@ -1,7 +1,7 @@
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../app/store";
 import { UserList } from "./UserList";
-import { selectUserIdsByLettersFilter } from "./usersSlice";
+import { selectUserIdsByLettersFilter } from "./userSelectors";
 
 export const mapStateToProps = (state: RootState) => {
   return {
