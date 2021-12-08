@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction, createEntityAdapter } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { usersUrl } from "./sharedConsts";
-
+import { fakeUsers } from "./sharedConsts";
 export interface UserData {
   id: string;
   firstName: string;
@@ -21,7 +20,7 @@ export type UserIdsFiltered = {
 
 const usersAdapter = createEntityAdapter<UserData>({
   sortComparer: (u1, u2) => {
-    if (!u1.firstName || !u2.firstName) debugger;
+    if (!u1.firstName || !u2.firstName) return 0;
     return u1.firstName.localeCompare(u2.firstName);
   },
 });
@@ -31,10 +30,23 @@ const initialState = usersAdapter.getInitialState({
   selectedLettersFilter: "",
 });
 
-export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-  const response = await fetch(`${usersUrl}`);
-  const responseJson = (await response.json()) as UserData[];
-  return responseJson;
+export const fetchUsers = createAsyncThunk("users/fetchUsers", async (count: number) => {
+  const usersUrl = new URL(fakeUsers);
+  usersUrl.searchParams.set("_quantity", `${count}`);
+
+  const responseJson = await fetch(`${usersUrl}`);
+  const response = await responseJson.json();
+
+  const usersData = response.data.map((item: any) => {
+    const user = {
+      id: `${item.firstname}${item.lastname}${Math.random()}`,
+      firstName: item.firstname,
+      lastName: item.lastname,
+      dob: item.birthday,
+    } as UserData;
+    return user;
+  });
+  return usersData;
 });
 
 export const usersSlice = createSlice({

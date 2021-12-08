@@ -27,7 +27,7 @@ export const selectUserIdsByLettersFilter = (state: RootState) => {
   return reducedUserIds;
 };
 
-const currentMonth = 10;
+const currentMonth = new Date().getMonth();
 export const selectActiveGroupedFilteredUserIds = (state: RootState) => {
   const activeUsers = selectUsers(state).filter((u) => u.isActive);
 

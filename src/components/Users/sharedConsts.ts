@@ -1,6 +1,6 @@
-const domainName = `https://yalantis-react-school-api.yalantis.com`;
-const apiUrl = `${domainName}/api`;
-export const usersUrl = `${apiUrl}/task0/users`;
+const domainName = `https://fakerapi.it/api/v1`;
+
+export const fakeUsers = `${domainName}/persons`;
 
 export const months = [
   "January",

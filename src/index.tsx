@@ -6,7 +6,7 @@ import { store } from "./app/store";
 import { Provider } from "react-redux";
 import { fetchUsers } from "./components/Users/usersSlice";
 
-store.dispatch(fetchUsers());
+store.dispatch(fetchUsers(100));
 
 ReactDOM.render(
   <React.StrictMode>
